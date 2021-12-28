@@ -19,8 +19,9 @@ Author : Princton C. Brennan
 
 """
 
-import random
 import os
+import random
+import sys
 import time
 
 
@@ -36,6 +37,7 @@ class Die:
         """
         Initializes Die object w/ an initial roll.
         """
+
         self.roll_die
 
     def roll_die(self):
@@ -43,6 +45,7 @@ class Die:
         Simulates the rolling of a die to generate, and returns the current value that
         the die has landed on. 
         """
+
         self.current_side = random.choice(self.side_values)
         return self.current_side
 
@@ -62,6 +65,7 @@ class Roll_Combo:
         @param val1 : value of the first die's currently rolled value
         @param val2 : value of the first die's currently rolled value
         """
+
         if val2 is None:
             self.is_doubles = False
             self.sum = val1
@@ -77,6 +81,7 @@ class Roll_Combo:
         :return _properties : calculated values for dice roll 
         :rtype dict
         """
+
         _properties = self.__dict__
         return _properties
 
@@ -115,9 +120,16 @@ class Craps:
     -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
     """
 
+    BET_TEXT = """
+    Please select from one of the following options
+    to place a bet:
+    """
+
+    BET_OPTIONS = [1, 5, 10, 20]
+
     user_selection = None
     set_point = None 
-    user_wallet = 0
+    user_wallet = 50
     bet = 0
     dice: list[Die]
     die_1 = Die()
@@ -145,16 +157,19 @@ class Craps:
         """
         Initializes the Craps object as an instance of a CRAPS game.
         """
+
+        os.system("clear")
         self.user_selection = input("Welcome to Craps!\nWould you like to play?\n\t(Y) yes or (N) no\n\t")
         if self.user_selection.upper() == "YES" or self.user_selection.upper() == "Y":
             self.set_point = None
             dice = [self.die_1, self.die_2]
-            os.system("clear")
-            print("\nWelcome!")
             print(self.DICE_ART)
+            print("\nWelcome! Your starting balance is ${0}!".format(self.user_wallet))
+            self.place_a_bet()
             
-            self.user_selection = input("Type 'R' to roll, or any other key to quit.\nOr 'H' for help with how to play.\n\t")
-            while self.user_selection is None or self.user_selection.upper() == "R" or self.user_selection.upper() == "H":
+            self.user_selection = input("Type 'R' to roll, 'H' for help with how to play, \nor any other key to quit.\n\t")
+            while (self.user_selection is None or self.user_selection.upper() == "R" \
+            or self.user_selection.upper() == "H") and self.user_wallet >= 0:
                 if self.user_selection.upper() == "R":
                     for die in dice:
                         die.roll_die()
@@ -166,15 +181,21 @@ class Craps:
                     roll_combo = Roll_Combo(dice[0].current_side,dice[1].current_side)
                     self.check_roll(roll_combo)
 
-                    self.user_selection = input("Type 'R' to roll, or any other key to quit.\n\t")
+                    self.user_selection = input("Type 'R' to roll, 'H' for help with how to play, \nor any other key to quit.\n\t")
+                    if self.user_selection.upper() == "R" and self.set_point is None:
+                        self.place_a_bet()
                 else:
                     os.system("clear")
                     print(self.RULES)
-                    self.user_selection = input("Type 'R' to roll, or any other key to quit.\nOr 'H' for help with how to play.\n\t")
+                    self.user_selection = input("Type 'R' to roll, 'H' for help with how to play, \nor any other key to quit.\n\t")
             
             print("\nThank you for playing!\n")
+
         else:
-            print("\nOK, see you next time.")
+            if self.user_wallet < 0:
+                print("Sorry, unfortunately your balance is too low to continue...\nThe casino is kicking you out! See you next time!")
+            else:
+                print("\nOK, see you next time.")
 
     def check_roll(self, roll_combo: Roll_Combo):
         """
@@ -189,18 +210,24 @@ class Craps:
         if self.set_point is None:
             if roll_combo.sum == 7 or roll_combo.sum == 11:
                 print("YOU WIN!\n")
+                self.user_wallet += (self.bet * 2)
+                print("New available balance: ${0}\n".format(self.user_wallet))
             elif roll_combo.sum == 2 or roll_combo.sum == 3 or roll_combo.sum == 12:
                 print("SORRY! YOU LOSE!\n")
+                print("New available balance: ${0}\n".format(self.user_wallet))
             else:
                 print("SET POINT : {0}!".format(roll_combo.sum))
                 self.set_point = roll_combo.sum
         else:
             if roll_combo.sum == self.set_point:
                 print("YOU WIN!\n")
+                self.user_wallet += (self.bet * 2)
                 self.set_point = None
+                print("New available balance: ${0}\n".format(self.user_wallet))
             elif roll_combo.sum == 7:
                 print("SORRY! YOU LOSE\n")
                 self.set_point = None
+                print("New available balance: ${0}\n".format(self.user_wallet))
             else:
                 print("TRY AGAIN! SET POINT STILL {0}!\n".format(self.set_point))
 
@@ -213,8 +240,51 @@ class Craps:
         for i in range(0, loop_limit):
             for dice_animation in self.DICE_ANIMATIONS:
                 print(dice_animation)
-                time.sleep(1)
+                time.sleep(.5)
                 os.system("clear")
+
+    def place_a_bet(self):
+        """
+        Places a bet based on the user input, only allowing what is available
+        it the user's wallet.
+        """
+
+        print("\n" + self.BET_TEXT + "\n")
+        print("Available balance: ${0}\n".format(self.user_wallet))
+        print("~"*25)
+        available_opts = []
+        is_valid_opt = False
+        for i in range(0, len(self.BET_OPTIONS)):
+            opt = self.BET_OPTIONS[i]
+            if self.user_wallet >= opt:
+                available_opts.append(i)
+                print("({0}) Bet ${1}".format(i+1, opt))
+
+        selected_bet_opt = input("Which bet option would you like to select?\nEnter 'q' to quit the game.\n")
+        if selected_bet_opt == 'q':
+            print("You've decided to quit.\nThank you for playing, see you next time.")
+            sys.exit(1)
+        while (type(selected_bet_opt) is not int) or (selected_bet_opt == ''):
+            try:
+                if not (int(selected_bet_opt) - 1 in available_opts):
+                    pass
+                else:
+                    break
+            except Exception as e:
+                pass                # catches characters that are ont base 10 (e.g. or 0-9 values)
+
+            print("Invalid selection, please try again.\n")
+            selected_bet_opt = input("Which bet option would you like to select?\nEnter 'q' to quit the game.\n")
+            if selected_bet_opt == 'q':
+                print("You've decided to quit.\nThank you for playing, see you next time.")
+                sys.exit(1)
+        
+        print("")
+        self.user_wallet -= self.BET_OPTIONS[int(selected_bet_opt)-1]
+        self.bet = self.BET_OPTIONS[int(selected_bet_opt)-1]
+
+        print("Current bet amount: ${0}".format(self.bet))
+        print("New available balance: ${0}\n".format(self.user_wallet))
 
 
 if __name__ == "__main__":
