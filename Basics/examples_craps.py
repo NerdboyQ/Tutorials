@@ -145,7 +145,7 @@ class Craps:
         """
         Initializes the Craps object as an instance of a CRAPS game.
         """
-        self.user_selection = input("Welcome to Craps!\nWould you like to play?\n\t(Y) yes or (N) no\n\tc")
+        self.user_selection = input("Welcome to Craps!\nWould you like to play?\n\t(Y) yes or (N) no\n\t")
         if self.user_selection.upper() == "YES" or self.user_selection.upper() == "Y":
             self.set_point = None
             dice = [self.die_1, self.die_2]
@@ -217,5 +217,5 @@ class Craps:
                 os.system("clear")
 
 
-
-game = Craps()
+if __name__ == "__main__":
+    game = Craps()
