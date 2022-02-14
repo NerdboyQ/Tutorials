@@ -1,5 +1,5 @@
 # Absolute Blind Beginner's Intro to Flask Web Apps   
-_This tutorial was created to serve as an intro crash course to webapp development using a python webapp development framework called "[Flask](https://flask.palletsprojects.com/en/2.0.x/)". A "software framework" is basically working code that was developed by one or more programmers already that you can reference in your own code instead of "re-inventing the wheel". There are different types of frameworks, for example the CSS framework this intro will be using is "[Bootstrap](https://getbootstrap.com/)"_
+_This tutorial was created to serve as an intro crash course to webapp development using a python webapp development framework called "[Flask](https://flask.palletsprojects.com/en/2.0.x/)". A "software framework" is basically working code that was developed by one or more programmers already that you can reference in your own code instead of "re-inventing the wheel". There are different types of frameworks, for example the CSS framework this intro will be using is "[Materialize](https://materializecss.com/)"_
 
 **What is  a Web App?**   
 A Web Application, or WebApp, is just an app that runs on a web server. A server is a computer (or program) that provides a service to other computers, referred to as "clients", with access to the same network.    
@@ -32,7 +32,7 @@ If we were to expand on the classroom example, we can make the classroom larger 
     * Naming Styles
     * Code structure 
  * HTML
- * CSS Frameworks [Bootstrap]
+ * CSS Frameworks [Materialize]
  * Reading/Understanding Code Documentation
  * Javascript
  * Database Basics [SQLAlchemy]
