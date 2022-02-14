@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <!-- The head tag is required for all html files; it provides information 
+    about the page and references any necessary files before the page begins to load-->
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Materialize Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>Hello, world!</title>
+  </head>
+
+  <nav>
+    <div class="nav-wrapper cyan darken-2">
+      <a href="#" class="brand-logo right">
+        <img src="./chores_icon.png" align="right" style="filter:invert(100%);max-width:10%;max-height:100%;">
+      </a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <div class="nav-content">
+          <ul class="tabs tabs-transparent">
+            <li class="tab"><b><a class="active" href="#">Dashboard</a></b></li>
+            <li class="tab"><b><a class="inactive" href="#">Chore Assignment</a></b></li>
+            <li class="tab"><b><a class="inactive" href="#">Admin</a></b></li>
+          </ul>
+        </div>
+      </ul>
+    </div>
+  </nav>
+        
+  <ul class="sidenav cyan darken-2" id="mobile-demo">
+    <li class="cyan darken-3"><b><a class="white-text" style="margin-left:5%" href="#">Dashboard</a></b></li>
+    <li><b><a class="white-text" style="margin-left:5%" href="#">Chore Assignment</a></b></li>
+    <li><b><a class="white-text" style="margin-left:5%" href="#">Admin</a></b></li>
+  </ul>
+
+  
+  <body class="blue-grey darken-4">
+    
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Adding small javascript code for simple actions --> 
+    <script>
+      
+      // Required for the popup menu to display when viewing a smaller screen.
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, {});
+      });
+  
+  </script>
+  </body>
+
+  
+</html>
