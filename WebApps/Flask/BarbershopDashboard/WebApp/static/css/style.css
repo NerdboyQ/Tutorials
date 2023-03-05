@@ -1,0 +1,14 @@
+.custom_colors_purple_lt {
+    --bg: #4B0082;
+    background-color: #4B0082;
+}
+
+.custom_colors_green_dk {
+    --bg:#BADA55;
+    background-color: #BADA55;
+} 
+
+.custom_colors_green_lt {
+    --bg:#B6FF79;
+    background-color: #B6FF79;
+}
