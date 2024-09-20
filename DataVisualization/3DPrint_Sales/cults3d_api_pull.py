@@ -21,10 +21,12 @@ graphql_query = """
 }
 """
 # my personal query
+# NOTE : According to cults3d graphql site, queries are limited to 100
+# TODO : Speak w/ CTO
 graphql_query = """
 {
     myself {
-    salesBatch{
+    salesBatch(limit:100){
       total
       results{
         createdAt
@@ -35,21 +37,12 @@ graphql_query = """
         income(currency: USD){
           cents
         }
+        user {
+          nick
+        }
         creation{
           name
         }
-      }
-    }
-    user {
-      creations{
-        name
-        downloadsCount
-        likesCount
-        viewsCount
-        price(currency: USD){
-          cents
-        }
-        
       }
     }
   }
