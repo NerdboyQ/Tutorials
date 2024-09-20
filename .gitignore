@@ -1,2 +1,8 @@
+# private config files holding user credentials and api keys
 private_config.py
 
+# python
+__pycache__
+
+# vscode
+.vscode
